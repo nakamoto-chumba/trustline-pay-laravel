@@ -4,11 +4,11 @@
 
 #### 1. Create the `store` Method
 
-The `store` method in the `DepositController` handles the logic for initiating a payment request. Below is an example implementation:
+The `stkPush` method in the `DepositController` handles the logic for initiating a payment request. Below is an example implementation:
 
 ```php
 
-    public function store(Request $request)
+    public function stkPush(Request $request)
     {
         $amount = filter_var($request->input('amount'), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $mpesa = filter_var($request->input('phone'), FILTER_SANITIZE_STRING);
