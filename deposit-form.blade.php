@@ -1,5 +1,5 @@
 <!-- Example in resources/views/user/deposit.blade.php -->
-<form action="/pay" method="POST">
+<form action="/stkpush" method="POST">
     @csrf
     <label for="amount">Amount:</label>
     <input type="text" id="amount" name="amount" required>
