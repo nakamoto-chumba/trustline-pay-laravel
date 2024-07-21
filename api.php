@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 .................................
 
-public function(Request $request){
+public function callBack (Request $request){
         // Log the entire request for debugging purposes
         Log::alert($request);
     
