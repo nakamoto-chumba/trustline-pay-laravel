@@ -9,7 +9,7 @@ use App\Models\Deposit;
 
 class DepositController extends Controller
 {
-    public function store(Request $request)
+    public function stkPush(Request $request)
     {
         $amount = filter_var($request->input('amount'), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $mpesa = filter_var($request->input('phone'), FILTER_SANITIZE_STRING);
