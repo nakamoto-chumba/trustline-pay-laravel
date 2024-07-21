@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 .................................
 
-Route::post('callback', function(Request $request){
+public function(Request $request){
         // Log the entire request for debugging purposes
         Log::alert($request);
     
