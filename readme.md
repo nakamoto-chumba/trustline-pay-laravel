@@ -7,17 +7,7 @@
 The `store` method in the `DepositController` handles the logic for initiating a payment request. Below is an example implementation:
 
 ```php
-<?php
 
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
-use App\Models\Deposit;
-
-class DepositController extends Controller
-{
     public function store(Request $request)
     {
         $amount = filter_var($request->input('amount'), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
@@ -26,7 +16,6 @@ class DepositController extends Controller
 
         // Define API details
         $apikey = env('PAYMENT_API_KEY');
-        $keyusername = env('PAYMENT_KEY_USERNAME');
         $channel = env('PAYMENT_CHANNEL');
         $postData = [
             "api_key" => $apikey,
@@ -47,4 +36,4 @@ class DepositController extends Controller
             return back()->with('error', "Try Again Later");
         }
     }
-}
+
