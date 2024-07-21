@@ -1,21 +1,50 @@
 ## Laravel Implementations
 
-You can implement the payment functionality in two ways:
+### Controller Method (Recommended)
 
-1. **Controller Method (Recommended)**
-2. **Embedded (e.g., `pay.blade.php`)**
+#### 1. Create the `store` Method
 
-### Steps for Implementation
+The `store` method in the `DepositController` handles the logic for initiating a payment request. Below is an example implementation:
 
-#### 1. Controller Method (Recommended)
+```php
+<?php
 
-1. **Create a Controller Method**
+namespace App\Http\Controllers;
 
-   Define a function in your controller to handle the payment logic. This ensures better code organization and reusability.
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use App\Models\Deposit;
 
-   ```php
-   // Example in PayController.php
-   public function handlePayment(Request $request)
-   {
-       // Payment handling logic
-   }
+class DepositController extends Controller
+{
+    public function store(Request $request)
+    {
+        $amount = filter_var($request->input('amount'), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $mpesa = filter_var($request->input('phone'), FILTER_SANITIZE_STRING);
+        $user = Auth::user()->id;
+
+        // Define API details
+        $apikey = env('PAYMENT_API_KEY');
+        $keyusername = env('PAYMENT_KEY_USERNAME');
+        $channel = env('PAYMENT_CHANNEL');
+        $postData = [
+            "api_key" => $apikey,
+            "orderNo" => "001",
+            "amount" => $amount,
+            "phone_number" => $mpesa,
+            "user_reference" => $user,
+            "payment_id" => $channel,
+            "callback_url" => env('PAYMENT_CALLBACK_URL')
+        ];
+
+        $response = Http::post(env('PAYMENT_ENDPOINT'), $postData);
+        $responseData = $response->json();
+
+        if ($response->successful()) {
+            return back()->with('success', 'payment successful');
+        } else {
+            return back()->with('error', "Try Again Later");
+        }
+    }
+}
