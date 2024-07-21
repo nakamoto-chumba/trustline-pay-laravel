@@ -51,4 +51,4 @@ public function callBack (Request $request){
         // Return a response (adjust as needed)
         return response()->json(['message' => 'Transaction processed successfully'], 200);
     }
-);
+
